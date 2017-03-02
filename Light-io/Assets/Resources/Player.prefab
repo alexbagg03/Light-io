@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 58619805426204412}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,7 +161,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1600740314599960}
   serializedVersion: 5
   lengthInSec: 5
-  speed: 1
+  simulationSpeed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1
