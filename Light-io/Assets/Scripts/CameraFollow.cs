@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
-    private GameObject player;
+    public GameObject player;
 
 
     private void Awake()
@@ -14,9 +14,11 @@ public class CameraFollow : MonoBehaviour {
 
     private void Update()
     {
-
-        Vector3 newPosition = player.transform.position; //Vector3.Lerp(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.15f);
-        newPosition.z = -10;
-        transform.position = newPosition;
+        if(player != null)
+        {
+            Vector3 newPosition = player.transform.position;
+            newPosition.z = -10;
+            transform.position = newPosition;
+        }
     }
 }

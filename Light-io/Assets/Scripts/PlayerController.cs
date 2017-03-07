@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
+        GameObject.Find("Main Camera").GetComponent<CameraFollow>().player = this.gameObject;
     }
 
     private void Update()
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour {
 
     public void Move()
     {
-        Vector3 newPosition = Vector3.Lerp(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.1f);
+        Vector3 newPosition = Vector3.Lerp(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.05f);
         newPosition.z = 0;
         transform.position = newPosition;
     }

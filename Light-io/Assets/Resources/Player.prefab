@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 114639600838504222}
   - component: {fileID: 50428327427177998}
   - component: {fileID: 58619805426204412}
+  - component: {fileID: 114970368652699092}
+  - component: {fileID: 114019692931633488}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -142,6 +144,38 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114019692931633488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099530109355240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 144
+    i1: 165
+    i2: 38
+    i3: 32
+    i4: 158
+    i5: 154
+    i6: 47
+    i7: 196
+    i8: 27
+    i9: 123
+    i10: 189
+    i11: 83
+    i12: 12
+    i13: 117
+    i14: 91
+    i15: 110
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114639600838504222
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,6 +187,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f933b3dd267c2cd45a9b6f1cff6152cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114970368652699092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099530109355240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 3
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!198 &198919030602222760
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -161,7 +215,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1600740314599960}
   serializedVersion: 5
   lengthInSec: 5
-  simulationSpeed: 1
+  speed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1
@@ -2511,7 +2565,7 @@ ParticleSystem:
       minMaxState: 0
     maxLights: 20
   TrailModule:
-    enabled: 0
+    enabled: 1
     ratio: 1
     lifetime:
       scalar: 1
@@ -2552,10 +2606,10 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
       minMaxState: 0
-    minVertexDistance: 0.2
+    minVertexDistance: 5.93
     textureMode: 0
     worldSpace: 0
-    dieWithParticles: 1
+    dieWithParticles: 0
     sizeAffectsWidth: 1
     sizeAffectsLifetime: 0
     inheritParticleColor: 1
@@ -2799,7 +2853,7 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
