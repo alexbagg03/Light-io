@@ -52,5 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickup: {fileID: 1047928746686922, guid: 665b1bb306d6cf04b9cb5edd217825ef, type: 2}
-  numberOfPickups: 20
+  numberOfPickups: 50
   mapLength: 100
