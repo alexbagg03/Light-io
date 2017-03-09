@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour {
             particleObject.transform.rotation = Quaternion.LookRotation(newDir);
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("DecreaseLight", 1f, 1f);
+                InvokeRepeating("DecreaseLight", 0f, 1f);
                 decrease = true;
             }
         }
