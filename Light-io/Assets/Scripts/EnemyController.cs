@@ -13,6 +13,11 @@ public class EnemyController : MonoBehaviour {
 
 	void Update()
 	{
+        if (GameManager.Instance.gamePaused)
+        {
+            return;
+        }
+
 		target = FindNearestPlayer ();
 		if (target != null) 
 		{
@@ -20,11 +25,11 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D collision)
+	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (collision.tag == "Player") 
+		if (other.tag == "Player") 
 		{
-			collision.GetComponent<PlayerController> ().light /= 2;
+            other.GetComponent<PlayerController>().DecreaseLight();
 		}
 	}
 

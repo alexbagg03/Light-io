@@ -17,6 +17,11 @@ public class ScorebarController : MonoBehaviour {
     {
         lightGained += light;
         scorebarFill.fillAmount = lightGained / GameManager.Instance.maxLight;
+
+        if (lightGained >= GameManager.Instance.maxLight)
+        {
+            GameManager.Instance.WinState();
+        }
     }
 
 }

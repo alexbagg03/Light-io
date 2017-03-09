@@ -44,6 +44,11 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
+        if (GameManager.Instance.gamePaused)
+        {
+            return;
+        }
+
         switch (playerNumber)
         {
             case 1:
@@ -150,8 +155,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
-    public void DecreaseLightP1()
+    public void TransferLightP1()
     {
         // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
         light -= 0.5f;
@@ -164,7 +168,7 @@ public class PlayerController : MonoBehaviour {
         speed += 0.0125f;
     }
 
-    public void DecreaseLightP2()
+    public void TransferLightP2()
     {
         // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
         light -= 0.5f;
@@ -177,6 +181,13 @@ public class PlayerController : MonoBehaviour {
         speed += 0.0125f;
     }
 
-
+    public void DecreaseLight()
+    {
+        light -= 0.5f;
+        GameManager.Instance.totalLightGained -= 0.5f;
+        GetComponent<Light>().range -= 0.025f;
+        transform.localScale = new Vector2(transform.localScale.x - 0.025f, transform.localScale.y - 0.025f);
+        speed += 0.0125f;
+    }
 
 }
