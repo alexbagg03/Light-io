@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
     private float m_Angle;
     private Vector2 force;
     public float speed;
-    private bool givelight;
+    public bool givelight;
     public GameObject particleObject;
     public GameObject player1;
     public GameObject player2;
@@ -150,21 +150,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Player")
-        {
-            givelight = true;
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "Player")
-        {
-            givelight = false;
-        }
-    }
 
     public void DecreaseLightP1()
     {
