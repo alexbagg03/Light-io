@@ -12,6 +12,12 @@ public class PlayerController : MonoBehaviour {
     private float m_Angle;
     private Vector2 force;
     public float speed;
+    private bool givelight;
+    public GameObject particleObject;
+    public GameObject player1;
+    public GameObject player2;
+    public float lightrate;
+    private bool decrease;
 
     private void Awake()
     {
@@ -30,6 +36,10 @@ public class PlayerController : MonoBehaviour {
 	{
 		light = 5f;
         speed = 3f;
+        givelight = false;
+        particleObject.SetActive(false);
+        lightrate = 0.01f;
+        decrease = false;
 	}
 
     private void Update()
@@ -62,29 +72,76 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    public void Move()
-    {
-        Vector3 newPosition = Vector3.Lerp(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.05f);
-        newPosition.z = 0;
-        transform.position = newPosition;
-    }
-    public void Move2()
-    {
-        Vector3 velocity = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        velocity.z = 0;
-        m_Rigidbody.velocity = velocity * 2;
-    }
-
     public void Player1Control()
     {
         m_Vertical = Input.GetAxis("Vertical");
         m_Horizontal = Input.GetAxis("Horizontal");
+
+        if(Input.GetAxisRaw("Fire1") == 1 && Input.GetAxisRaw("Fire2") == 1 && givelight)
+        {
+            particleObject.SetActive(true);
+            particleObject.transform.position = this.transform.position;
+            Vector3 targetDir = player2.transform.position - particleObject.transform.position;
+            float step = 6f;
+            Vector3 newDir = Vector3.RotateTowards(particleObject.transform.forward, targetDir, step, 0.0F);
+            particleObject.transform.rotation = Quaternion.LookRotation(newDir);
+            if (light >= 0f && !decrease)
+            {
+                InvokeRepeating("DecreaseLight", 0f, 0.1f);
+                decrease = true;
+            }
+        }
+
+        if((Input.GetAxisRaw("Fire1") != 1 && Input.GetAxisRaw("Fire2") != 1) || !givelight || light <= 0)
+        {
+            particleObject.SetActive(false);
+            CancelInvoke("DecreaseLight");
+            if (light < 0)
+            {
+                light = 0;
+            }
+
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector2(0.1f, 0.1f);
+            }
+            decrease = false;
+        }
+
     }
 
     public void Player2Control()
     {
         m_Vertical = Input.GetAxis("VerticalP2");
         m_Horizontal = Input.GetAxis("HorizontalP2");
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            givelight = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            givelight = false;
+        }
+    }
+
+    public void DecreaseLight()
+    {
+        // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
+
+        light -= 0.1f;
+        this.GetComponent<Light>().range -= 0.1f;
+        player2.GetComponent<Light>().range += 0.1f;
+        player2.transform.localScale = new Vector2(player2.transform.localScale.x + 0.1f, player2.transform.localScale.y + 0.1f);
+        transform.localScale = new Vector2(transform.localScale.x - 0.1f, transform.localScale.y - 0.1f);
+        speed += 0.1f;
     }
 
 }
