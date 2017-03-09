@@ -47,7 +47,14 @@ public class EnemyController : MonoBehaviour {
 		{
 			return null;
 		}
+
 		GameObject closest = players [0];
+
+        if (closest.GetComponent<PlayerController>().light <= 0)
+        {
+            closest.tag = "Dead";
+        }
+
 		float closestDistance = Vector3.Distance (transform.position, closest.transform.position);
 		for (int i = 0; i < players.Length; i++) 
 		{

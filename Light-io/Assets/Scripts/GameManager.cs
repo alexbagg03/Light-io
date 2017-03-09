@@ -40,7 +40,9 @@ public class GameManager : MonoBehaviour {
     }
     void Start()
     {
-        AddLight(maxLight / 2);
+        float p1LightAmount = player1.GetComponent<PlayerController>().light;
+        float p2LightAmount = player2.GetComponent<PlayerController>().light;
+        AddLight(p1LightAmount + p2LightAmount);
     }
     void Update ()
     {
@@ -66,6 +68,7 @@ public class GameManager : MonoBehaviour {
     public void GameOver()
     {
         gameOver = true;
+        PauseGame();
     }
     public void PauseGame()
     {

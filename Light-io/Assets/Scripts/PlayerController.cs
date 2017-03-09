@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour {
     public GameObject player2;
     public float lightrate;
     private bool decrease;
+    private float enemyAttackDecreaseLightAmount = 5f;
+    private float rangeChangeRate = 0.025f;
+    private float speedChangeRate = 0.025f;
+    private float lightChangeRate = 0.5f;
+    private float localScaleChangeRate = 0.025f;
+    private float trailChangeRate = 0.025f;
 
     private void Awake()
     {
@@ -47,6 +53,11 @@ public class PlayerController : MonoBehaviour {
         if (GameManager.Instance.gamePaused)
         {
             return;
+        }
+
+        if (light > 0)
+        {
+            gameObject.tag = "Player";
         }
 
         switch (playerNumber)
@@ -93,7 +104,7 @@ public class PlayerController : MonoBehaviour {
 
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("TransferLightP1", 0f, 0.5f);
+                InvokeRepeating("TransferLightP1", 0f, 0.25f);
                 decrease = true;
             }
         }
@@ -132,7 +143,7 @@ public class PlayerController : MonoBehaviour {
 
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("TransferLightP2", 0f, 0.5f);
+                InvokeRepeating("TransferLightP2", 0f, 0.25f);
                 decrease = true;
             }
         }
@@ -158,36 +169,64 @@ public class PlayerController : MonoBehaviour {
     public void TransferLightP1()
     {
         // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
-        light -= 0.5f;
-        this.GetComponent<Light>().range -= 0.025f;
-        player2.GetComponent<Light>().range += 0.025f;
-        player2.GetComponent<PlayerController>().speed -= 0.025f;
-        player2.GetComponent<PlayerController>().light += 0.5f;
-        player2.transform.localScale = new Vector2(player2.transform.localScale.x + 0.025f, player2.transform.localScale.y + 0.025f);
-        transform.localScale = new Vector2(transform.localScale.x - 0.025f, transform.localScale.y - 0.025f);
-        speed += 0.0125f;
+        // Change values from self
+        light -= lightChangeRate;
+        this.GetComponent<Light>().range -= rangeChangeRate;
+        GetTrail(this.gameObject).GetComponent<ParticleSystem>().startSize -= trailChangeRate;
+        transform.localScale = new Vector2(transform.localScale.x - localScaleChangeRate, transform.localScale.y - localScaleChangeRate);
+        speed += speedChangeRate;
+
+        // Change values for other player
+        player2.GetComponent<Light>().range += rangeChangeRate;
+        GetTrail(player2).GetComponent<ParticleSystem>().startSize += trailChangeRate;
+        player2.GetComponent<PlayerController>().speed -= speedChangeRate;
+        player2.GetComponent<PlayerController>().light += lightChangeRate;
+        player2.transform.localScale = new Vector2(player2.transform.localScale.x + localScaleChangeRate, player2.transform.localScale.y + localScaleChangeRate);
     }
 
     public void TransferLightP2()
     {
         // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
-        light -= 0.5f;
-        this.GetComponent<Light>().range -= 0.025f;
-        player1.GetComponent<Light>().range += 0.025f;
-        player1.GetComponent<PlayerController>().speed -= 0.025f;
-        player1.GetComponent<PlayerController>().light += 0.5f;
-        player1.transform.localScale = new Vector2(player1.transform.localScale.x + 0.025f, player1.transform.localScale.y + 0.025f);
-        transform.localScale = new Vector2(transform.localScale.x - 0.025f, transform.localScale.y - 0.025f);
-        speed += 0.0125f;
+        // Change values from self
+        light -= lightChangeRate;
+        this.GetComponent<Light>().range -= rangeChangeRate;
+        GetTrail(this.gameObject).GetComponent<ParticleSystem>().startSize -= trailChangeRate;
+        transform.localScale = new Vector2(transform.localScale.x - localScaleChangeRate, transform.localScale.y - localScaleChangeRate);
+        speed += speedChangeRate;
+
+        // Change values for other player
+        player1.GetComponent<Light>().range += rangeChangeRate;
+        GetTrail(player1).GetComponent<ParticleSystem>().startSize += trailChangeRate;
+        player1.GetComponent<PlayerController>().speed -= speedChangeRate;
+        player1.GetComponent<PlayerController>().light += lightChangeRate;
+        player1.transform.localScale = new Vector2(player1.transform.localScale.x + localScaleChangeRate, player1.transform.localScale.y + localScaleChangeRate);
     }
 
     public void DecreaseLight()
     {
-        light -= 5f;
-        GameManager.Instance.totalLightGained -= 5f;
-        GetComponent<Light>().range -= 0.025f;
-        transform.localScale = new Vector2(transform.localScale.x - 0.025f, transform.localScale.y - 0.025f);
-        speed += 0.0125f;
+        if (light <= 0)
+        {
+            return;
+        }
+
+        light -= enemyAttackDecreaseLightAmount;
+        GameManager.Instance.totalLightGained -= enemyAttackDecreaseLightAmount;
+        this.GetComponent<Light>().range -= 0.25f;
+        GetTrail(this.gameObject).GetComponent<ParticleSystem>().startSize -= 0.25f;
+        transform.localScale = new Vector2(transform.localScale.x - 0.25f, transform.localScale.y - 0.25f);
+        speed += 0.25f;
+    }
+
+    public GameObject GetTrail(GameObject parent)
+    {
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            if (parent.transform.GetChild(i).name == "Trail")
+            {
+                return parent.transform.GetChild(i).gameObject;
+            }
+        }
+        return null;
     }
 
 }
