@@ -7,15 +7,22 @@ public class ScorebarController : MonoBehaviour {
 
     private Image scorebarFill;
     private float lightGained;
+    private GameObject gameManager;
 
 	void Start ()
     {
         scorebarFill = GetComponent<Image>();
+        gameManager = GameObject.Find("GameManager");
 	}
 
-    public void AddLight(float light)
+    private void Update()
     {
-        lightGained += light;
+        AdjustLight();
+    }
+
+    public void AdjustLight()
+    {
+        lightGained = gameManager.GetComponent<GameManager>().totalLightGained;
         scorebarFill.fillAmount = lightGained / GameManager.Instance.maxLight;
 
         if (lightGained >= GameManager.Instance.maxLight)

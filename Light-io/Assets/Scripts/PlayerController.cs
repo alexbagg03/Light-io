@@ -183,8 +183,8 @@ public class PlayerController : MonoBehaviour {
 
     public void DecreaseLight()
     {
-        light -= 0.5f;
-        GameManager.Instance.totalLightGained -= 0.5f;
+        light -= 5f;
+        GameManager.Instance.totalLightGained -= 5f;
         GetComponent<Light>().range -= 0.025f;
         transform.localScale = new Vector2(transform.localScale.x - 0.025f, transform.localScale.y - 0.025f);
         speed += 0.0125f;

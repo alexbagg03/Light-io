@@ -89,7 +89,6 @@ public class GameManager : MonoBehaviour {
     public void AddLight(float light)
     {
         totalLightGained += light;
-        scorebarFill.GetComponent<ScorebarController>().AddLight(light);
     }
 
 }

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
 
-	private GameObject target;
+    private GameObject target;
+    private float attackSpeed;
 
 	void Start()
 	{
-		target = FindNearestPlayer ();
+        attackSpeed = 0;
+	   target = FindNearestPlayer ();
 	}
 
 	void Update()
@@ -17,19 +19,24 @@ public class EnemyController : MonoBehaviour {
         {
             return;
         }
+        if(attackSpeed > 0 )
+        {
+            attackSpeed -= Time.deltaTime;
+        }
 
-		target = FindNearestPlayer ();
-		if (target != null) 
-		{
-			transform.position = Vector2.MoveTowards (transform.position, target.transform.position, 0.1f);
-		}
+	   target = FindNearestPlayer ();
+	   if (target != null) 
+	   {
+	       transform.position = Vector2.MoveTowards (transform.position, target.transform.position, 0.1f);
+	   }
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+	void OnTriggerStay2D(Collider2D other)
 	{
-		if (other.tag == "Player") 
+		if (other.tag == "Player" && attackSpeed <= 0) 
 		{
             other.GetComponent<PlayerController>().DecreaseLight();
+            attackSpeed = 0.5f;
 		}
 	}
 
