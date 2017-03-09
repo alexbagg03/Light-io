@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour {
 
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("DecreaseLightP1", 0f, 0.5f);
+                InvokeRepeating("TransferLightP1", 0f, 0.5f);
                 decrease = true;
             }
         }
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour {
         if((Input.GetAxisRaw("Fire1") != 1 && Input.GetAxisRaw("Fire2") != 1) || !givelight || light <= 0)
         {
             particleObject.SetActive(false);
-            CancelInvoke("DecreaseLightP1");
+            CancelInvoke("TransferLightP1");
             if (light < 0)
             {
                 light = 0;
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour {
 
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("DecreaseLightP2", 0f, 0.5f);
+                InvokeRepeating("TransferLightP2", 0f, 0.5f);
                 decrease = true;
             }
         }
@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour {
         if ((Input.GetAxisRaw("Fire1P2") != 1 && Input.GetAxisRaw("Fire2P2") != 1) || !givelight || light <= 0)
         {
             particleObject.SetActive(false);
-            CancelInvoke("DecreaseLightP2");
+            CancelInvoke("TransferLightP2");
 
             if (light < 0)
             {
