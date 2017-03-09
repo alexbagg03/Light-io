@@ -85,9 +85,10 @@ public class PlayerController : MonoBehaviour {
             float step = 6f;
             Vector3 newDir = Vector3.RotateTowards(particleObject.transform.forward, targetDir, step, 0.0F);
             particleObject.transform.rotation = Quaternion.LookRotation(newDir);
+
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("DecreaseLight", 0f, 1f);
+                InvokeRepeating("DecreaseLightP1", 0f, 0.5f);
                 decrease = true;
             }
         }
@@ -95,7 +96,7 @@ public class PlayerController : MonoBehaviour {
         if((Input.GetAxisRaw("Fire1") != 1 && Input.GetAxisRaw("Fire2") != 1) || !givelight || light <= 0)
         {
             particleObject.SetActive(false);
-            CancelInvoke("DecreaseLight");
+            CancelInvoke("DecreaseLightP1");
             if (light < 0)
             {
                 light = 0;
@@ -114,6 +115,39 @@ public class PlayerController : MonoBehaviour {
     {
         m_Vertical = Input.GetAxis("VerticalP2");
         m_Horizontal = Input.GetAxis("HorizontalP2");
+
+        if (Input.GetAxisRaw("Fire1P2") == 1 && Input.GetAxisRaw("Fire2P2") == 1 && givelight)
+        {
+            particleObject.SetActive(true);
+            particleObject.transform.position = this.transform.position;
+            Vector3 targetDir = player1.transform.position - particleObject.transform.position;
+            float step = 6f;
+            Vector3 newDir = Vector3.RotateTowards(particleObject.transform.forward, targetDir, step, 0.0F);
+            particleObject.transform.rotation = Quaternion.LookRotation(newDir);
+
+            if (light >= 0f && !decrease)
+            {
+                InvokeRepeating("DecreaseLightP2", 0f, 0.5f);
+                decrease = true;
+            }
+        }
+
+        if ((Input.GetAxisRaw("Fire1P2") != 1 && Input.GetAxisRaw("Fire2P2") != 1) || !givelight || light <= 0)
+        {
+            particleObject.SetActive(false);
+            CancelInvoke("DecreaseLightP2");
+
+            if (light < 0)
+            {
+                light = 0;
+            }
+
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector2(0.1f, 0.1f); //so the player doesn't get a negative scale
+            }
+            decrease = false;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -132,16 +166,32 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void DecreaseLight()
+    public void DecreaseLightP1()
     {
         // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
-        light -= 1f;
-        this.GetComponent<Light>().range -= 0.05f;
-        player2.GetComponent<Light>().range += 0.05f;
-        player2.GetComponent<PlayerController>().speed -= 0.05f;
-        player2.transform.localScale = new Vector2(player2.transform.localScale.x + 0.05f, player2.transform.localScale.y + 0.05f);
-        transform.localScale = new Vector2(transform.localScale.x - 0.05f, transform.localScale.y - 0.05f);
-        speed += 0.05f;
+        light -= 0.5f;
+        this.GetComponent<Light>().range -= 0.025f;
+        player2.GetComponent<Light>().range += 0.025f;
+        player2.GetComponent<PlayerController>().speed -= 0.025f;
+        player2.GetComponent<PlayerController>().light += 0.5f;
+        player2.transform.localScale = new Vector2(player2.transform.localScale.x + 0.025f, player2.transform.localScale.y + 0.025f);
+        transform.localScale = new Vector2(transform.localScale.x - 0.025f, transform.localScale.y - 0.025f);
+        speed += 0.0125f;
     }
+
+    public void DecreaseLightP2()
+    {
+        // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
+        light -= 0.5f;
+        this.GetComponent<Light>().range -= 0.025f;
+        player1.GetComponent<Light>().range += 0.025f;
+        player1.GetComponent<PlayerController>().speed -= 0.025f;
+        player1.GetComponent<PlayerController>().light += 0.5f;
+        player1.transform.localScale = new Vector2(player1.transform.localScale.x + 0.025f, player1.transform.localScale.y + 0.025f);
+        transform.localScale = new Vector2(transform.localScale.x - 0.025f, transform.localScale.y - 0.025f);
+        speed += 0.0125f;
+    }
+
+
 
 }
