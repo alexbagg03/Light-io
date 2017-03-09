@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ScorebarController : MonoBehaviour {
 
+    public Color lerpedColor = Color.white;
+
     private Image scorebarFill;
     private float lightGained;
     private GameObject gameManager;
@@ -29,6 +31,11 @@ public class ScorebarController : MonoBehaviour {
         {
             GameManager.Instance.WinState();
         }
+    }
+
+    public void LerpColor()
+    {
+        lerpedColor = Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time, 1));
     }
 
 }

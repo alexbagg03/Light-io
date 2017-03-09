@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour {
 
     private GameObject target;
     private float attackSpeed;
+    private int foundPlayerIndex;
 
 	void Start()
 	{
@@ -49,21 +50,38 @@ public class EnemyController : MonoBehaviour {
 		}
 
 		GameObject closest = players [0];
+        foundPlayerIndex = 0;
 
         if (closest.GetComponent<PlayerController>().light <= 0)
         {
             closest.tag = "Dead";
         }
 
-		float closestDistance = Vector3.Distance (transform.position, closest.transform.position);
+        
 		for (int i = 0; i < players.Length; i++) 
 		{
-			if (Vector3.Distance (transform.position, players [i].transform.position) < closestDistance) 
-			{
-				closest = players [i];
-				closestDistance = Vector3.Distance (transform.position, closest.transform.position);
-			}
-		}
-		return closest;
-	}
+            float otherPlayerlight = players[i].GetComponent<PlayerController>().light;
+            float closestPlayerlight = closest.GetComponent<PlayerController>().light;
+
+            if (otherPlayerlight > closestPlayerlight)
+            {
+                closest = players[i];
+            }
+        }
+
+        return closest;
+
+        //if (foundPlayerIndex == 0)
+        //{
+        //    if (closest.GetComponent<PlayerController>().light > players[1].GetComponent<PlayerController>().light)
+        //    {
+        //        return closest;
+        //    }
+        //}
+
+        //else
+        //{
+        //    return players[1];
+        //}
+    }
 }
