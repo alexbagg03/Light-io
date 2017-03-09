@@ -5,12 +5,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     private Rigidbody2D m_Rigidbody;
+	public float light;
 
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
         GameObject.Find("Main Camera").GetComponent<CameraFollow>().player = this.gameObject;
     }
+
+	private void Start()
+	{
+		light = 5f;
+	}
 
     private void Update()
     {
