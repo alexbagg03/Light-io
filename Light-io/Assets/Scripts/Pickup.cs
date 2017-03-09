@@ -10,7 +10,7 @@ public class Pickup : MonoBehaviour {
         {
             other.GetComponent<Light>().range += 0.25f;
             other.transform.localScale = new Vector2(other.transform.localScale.x + 0.25f, other.transform.localScale.y + 0.25f);
-            other.GetComponent<PlayerController>().light = 1f; //this amount might need to be tweaked 
+            other.GetComponent<PlayerController>().light = 5f; //this amount might need to be tweaked 
             if (other.GetComponent<PlayerController>().speed > 0.25)
             {
                 other.GetComponent<PlayerController>().speed -= 0.25f;

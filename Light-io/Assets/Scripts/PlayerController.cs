@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour {
 	private void Start()
 	{
 		light = 5f;
-        speed = 3f;
+        speed = 4f;
         givelight = false;
         particleObject.SetActive(false);
         lightrate = 0.01f;
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour {
             particleObject.transform.rotation = Quaternion.LookRotation(newDir);
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("DecreaseLight", 0f, 0.1f);
+                InvokeRepeating("DecreaseLight", 1f, 1f);
                 decrease = true;
             }
         }
@@ -135,13 +135,13 @@ public class PlayerController : MonoBehaviour {
     public void DecreaseLight()
     {
         // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
-
-        light -= 0.1f;
-        this.GetComponent<Light>().range -= 0.1f;
-        player2.GetComponent<Light>().range += 0.1f;
-        player2.transform.localScale = new Vector2(player2.transform.localScale.x + 0.1f, player2.transform.localScale.y + 0.1f);
-        transform.localScale = new Vector2(transform.localScale.x - 0.1f, transform.localScale.y - 0.1f);
-        speed += 0.1f;
+        light -= 1f;
+        this.GetComponent<Light>().range -= 0.05f;
+        player2.GetComponent<Light>().range += 0.05f;
+        player2.GetComponent<PlayerController>().speed -= 0.05f;
+        player2.transform.localScale = new Vector2(player2.transform.localScale.x + 0.05f, player2.transform.localScale.y + 0.05f);
+        transform.localScale = new Vector2(transform.localScale.x - 0.05f, transform.localScale.y - 0.05f);
+        speed += 0.05f;
     }
 
 }
