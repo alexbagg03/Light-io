@@ -16,7 +16,14 @@ public class PlayerController : MonoBehaviour {
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
-        GameObject.Find("Main Camera").GetComponent<CameraFollow>().player = this.gameObject;
+        if (name == "Player1")
+        {
+            GameObject.Find("Player1Camera").GetComponent<CameraFollow>().player = this.gameObject;
+        }
+        else if (name == "Player2")
+        {
+            GameObject.Find("Player2Camera").GetComponent<CameraFollow>().player = this.gameObject;
+        }
     }
 
 	private void Start()
