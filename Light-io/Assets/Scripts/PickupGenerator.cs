@@ -13,7 +13,7 @@ public class PickupGenerator : MonoBehaviour {
         for (int i = 0; i < numberOfPickups; i++)
         {
             Vector2 position = new Vector2(Random.Range(-mapLength, mapLength), Random.Range(-mapLength, mapLength));
-            Instantiate(pickup, position, Quaternion.identity);
+            GameObject.Instantiate(pickup, position, Quaternion.identity);
         }
 	}
 

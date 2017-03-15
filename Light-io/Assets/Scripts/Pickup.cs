@@ -12,7 +12,7 @@ public class Pickup : MonoBehaviour {
         if (other.tag == "Player")
         {
             other.GetComponent<Light>().range += 0.25f;
-            other.transform.localScale = new Vector2(other.transform.localScale.x + 0.25f, other.transform.localScale.y + 0.25f);
+            other.transform.localScale = new Vector2(other.transform.localScale.x + 0.25f, other.transform.localScale.y + 0.25f); 
             other.GetComponent<PlayerController>().light += lightGain; //this amount might need to be tweaked 
             GameManager.Instance.AddLight(lightGain);
             if (other.GetComponent<PlayerController>().speed > 0.25)
