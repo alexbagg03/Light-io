@@ -9,6 +9,7 @@ public class GiveLight : MonoBehaviour {
         if (other.tag == "Player" || other.tag == "Dead")
         {
             transform.parent.GetComponent<PlayerController>().givelight = true;
+            transform.parent.GetComponent<PlayerController>().current_target = other.gameObject;
         }
     }
 

@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject particleObject;
     public GameObject player1;
     public GameObject player2;
+    public GameObject bank;
     public float lightrate;
     private bool decrease;
     private float enemyAttackDecreaseLightAmount = 5f;
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject trail;
     private Color current_color;
     private Color original_color;
+    public GameObject current_target;
 
     private void Awake()
     {
@@ -135,7 +137,16 @@ public class PlayerController : MonoBehaviour {
 
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("TransferLightP1", 0f, 0.25f);
+                if (current_target.tag == "Player")
+                {
+                    InvokeRepeating("TransferLightP1", 0f, 0.25f);
+                }
+
+                if( current_target.tag == "Bank")
+                {
+                    InvokeRepeating("TransferBank", 0f, 0.25f);
+                }
+
                 decrease = true;
             }
         }
@@ -179,10 +190,11 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if ((Input.GetAxisRaw("Fire1P2") != 1 && Input.GetAxisRaw("Fire2P2") != 1) || !givelight || light <= 0)
+        if ((Input.GetAxisRaw("Fire1P2") != 1 && Input.GetAxisRaw("Fire2P2") != 1) || !givelight || light <= 5)
         {
             particleObject.SetActive(false);
             CancelInvoke("TransferLightP2");
+            CancelInvoke("TransferBank");
 
             if (light < 0)
             {
@@ -231,6 +243,22 @@ public class PlayerController : MonoBehaviour {
         player1.GetComponent<PlayerController>().speed -= speedChangeRate;
         player1.GetComponent<PlayerController>().light += lightChangeRate;
         player1.transform.localScale = new Vector2(player1.transform.localScale.x + localScaleChangeRate, player1.transform.localScale.y + localScaleChangeRate);
+    }
+
+    public void TransferBank()
+    {
+        light -= lightChangeRate;
+        this.GetComponent<Light>().range -= rangeChangeRate;
+        GetTrail(this.gameObject).GetComponent<ParticleSystem>().startSize -= trailChangeRate;
+        transform.localScale = new Vector2(transform.localScale.x - localScaleChangeRate, transform.localScale.y - localScaleChangeRate);
+        speed += speedChangeRate;
+
+        // Change values for other player
+        bank.GetComponent<Light>().range += rangeChangeRate;
+        GetTrail(bank).GetComponent<ParticleSystem>().startSize += trailChangeRate;
+        bank.GetComponent<PlayerController>().speed -= speedChangeRate;
+        bank.GetComponent<PlayerController>().light += lightChangeRate;
+        bank.transform.localScale = new Vector2(bank.transform.localScale.x + localScaleChangeRate, bank.transform.localScale.y + localScaleChangeRate);
     }
 
     public void DecreaseLight()
