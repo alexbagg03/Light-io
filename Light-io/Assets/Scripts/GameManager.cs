@@ -89,6 +89,17 @@ public class GameManager : MonoBehaviour {
     {
         SceneManager.LoadScene("MainScene");
     }
+    public void LoadNextLevel()
+    {
+        if (SceneManager.GetActiveScene().name == "Level1")
+        {
+            SceneManager.LoadScene("Level2");
+        }
+        else if(SceneManager.GetActiveScene().name == "Level2")
+        {
+            SceneManager.LoadScene("Level3");
+        }
+    }
     public void AddLight(float light)
     {
         totalLightGained += light;
