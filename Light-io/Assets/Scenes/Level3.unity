@@ -20487,7 +20487,7 @@ Transform:
   m_PrefabParentObject: {fileID: 4789883393147058, guid: 4a2d660c0c1cfc443901d4a6815d8964,
     type: 2}
   m_PrefabInternal: {fileID: 1504902543}
---- !u!1001 &1514640727
+--- !u!1001 &1506981598
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -20584,11 +20584,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114061850016735940, guid: 08890fbf297ab2a43b47515ef4c67bef,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1698030831}
     - target: {fileID: 1027996700430072, guid: 08890fbf297ab2a43b47515ef4c67bef, type: 2}
       propertyPath: m_IsActive
       value: 0
@@ -28904,7 +28899,7 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 1027996700430072, guid: 08890fbf297ab2a43b47515ef4c67bef,
     type: 2}
-  m_PrefabInternal: {fileID: 1514640727}
+  m_PrefabInternal: {fileID: 1506981598}
 --- !u!1001 &2065563436
 Prefab:
   m_ObjectHideFlags: 0
