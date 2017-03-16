@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour {
     private float lightChangeRate = 0.5f;
     private float localScaleChangeRate = 0.025f;
     private float trailChangeRate = 0.025f;
+    public GameObject trail;
+    private Color current_color;
+    private Color original_color;
 
     private void Awake()
     {
@@ -46,6 +49,8 @@ public class PlayerController : MonoBehaviour {
         particleObject.SetActive(false);
         lightrate = 0.01f;
         decrease = false;
+        trail = transform.FindChild("Trail").gameObject;
+        original_color = GetComponent<Light>().color;
 	}
 
     private void Update()
@@ -58,6 +63,32 @@ public class PlayerController : MonoBehaviour {
         if (light > 0)
         {
             gameObject.tag = "Player";
+
+            if (!trail.activeSelf)
+            {
+                trail.SetActive(true);
+            }
+
+            GetComponent<Light>().color = original_color;
+        }
+
+        if (light <= 0)
+        {
+            gameObject.tag = "Dead";
+        }
+
+        if (gameObject.tag == "Dead")
+        {
+            m_Rigidbody.velocity = new Vector2(0, 0);
+
+            GetComponent<Light>().color = new Color(19f / 255f, 19f / 255f, 19f / 255f, 122f / 255f);
+            if (trail.activeSelf)
+            {
+                trail.SetActive(false);
+            }
+            
+
+            return;
         }
 
         switch (playerNumber)
