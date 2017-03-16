@@ -310,7 +310,6 @@ public class PlayerController : MonoBehaviour {
         speed += speedChangeRate;
 
         // Change values for other player
-        bank.GetComponent<Light>().range += rangeChangeRate;
         bank.GetComponent<Bank>().light += lightChangeRate;
         bank.transform.localScale = new Vector2(bank.transform.localScale.x + localScaleChangeRate, bank.transform.localScale.y + localScaleChangeRate);
     }
