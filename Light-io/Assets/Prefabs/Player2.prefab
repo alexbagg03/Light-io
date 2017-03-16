@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114441094499826968}
   - component: {fileID: 50332491972171484}
   - component: {fileID: 58951937572347006}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player2
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1529333636502562}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4196885825536814}
@@ -192,7 +192,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 7
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9746452, b: 0.08088237, a: 1}
   m_Intensity: 8
   m_Range: 0.75
   m_SpotAngle: 30
@@ -236,6 +236,10 @@ MonoBehaviour:
   player1: {fileID: 0}
   player2: {fileID: 1529333636502562}
   lightrate: 0
+  trail: {fileID: 0}
+  boostForce: 1000
+  bank: {fileID: 0}
+  current_target: {fileID: 0}
 --- !u!114 &114715730961397432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -475,7 +479,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.42745098, g: 0.42745098, b: 0.42745098, a: 0.23921569}
+      maxColor: {r: 1, g: 0.9882353, b: 0.5529412, a: 1}
       minMaxState: 0
     startSize:
       scalar: 0.25
@@ -2960,6 +2964,6 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9117647, g: 0.88661253, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
