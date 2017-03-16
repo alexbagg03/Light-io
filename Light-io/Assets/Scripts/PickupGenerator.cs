@@ -5,16 +5,21 @@ using UnityEngine;
 public class PickupGenerator : MonoBehaviour {
 
     public GameObject pickup;
-    public int numberOfPickups = 20;
-    public float mapLength = 100f;
+    public int pickupsOnStart = 20;
+    public float mapWidth = 100f;
 
 	void Start ()
     {
-        for (int i = 0; i < numberOfPickups; i++)
+        for (int i = 0; i < pickupsOnStart; i++)
         {
-            Vector2 position = new Vector2(Random.Range(-mapLength, mapLength), Random.Range(-mapLength, mapLength));
-            GameObject.Instantiate(pickup, position, Quaternion.identity);
+            SpawnPickup();
         }
 	}
+
+    public void SpawnPickup()
+    {
+        Vector2 randPosition = new Vector2(Random.Range(-mapWidth / 2, mapWidth / 2), Random.Range(-mapWidth / 2, mapWidth / 2));
+        GameObject.Instantiate(pickup, randPosition, Quaternion.identity);
+    }
 
 }
