@@ -11,6 +11,16 @@ public class LoadScene : MonoBehaviour {
         {
             SceneManager.LoadScene("Level1");
         }
+
+        if((Input.GetButtonDown("EnterP1") || Input.GetButtonDown("EnterP2")) && SceneManager.GetActiveScene().name == "WinScene")
+        {
+            SceneManager.LoadScene("Level1");
+        }
+
+        if(Input.GetButtonDown("Cancel"))
+        {
+            Application.Quit();
+        }
     }
 
 }

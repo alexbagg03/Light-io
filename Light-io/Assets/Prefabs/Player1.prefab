@@ -237,7 +237,7 @@ MonoBehaviour:
   player2: {fileID: 0}
   lightrate: 0
   trail: {fileID: 0}
-  boostForce: 1000
+  boostForce: 5000
   bank: {fileID: 0}
   current_target: {fileID: 0}
 --- !u!114 &114956383977551104
