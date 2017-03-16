@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour {
     private Color current_color;
     private Color original_color;
     public float boostForce = 100f;
+    public GameObject bank;
+    public GameObject current_target;
 
     private void Awake()
     {
@@ -48,7 +50,6 @@ public class PlayerController : MonoBehaviour {
 		light = 5f;
         speed = 4f;
         givelight = false;
-        boosting = false;
         particleObject.SetActive(false);
         lightrate = 0.01f;
         decrease = false;
@@ -132,23 +133,35 @@ public class PlayerController : MonoBehaviour {
         {
             particleObject.SetActive(true);
             particleObject.transform.position = this.transform.position;
-            Vector3 targetDir = player2.transform.position - particleObject.transform.position;
+            Vector3 targetDir = current_target.transform.position - particleObject.transform.position;
             float step = 6f;
             Vector3 newDir = Vector3.RotateTowards(particleObject.transform.forward, targetDir, step, 0.0F);
             particleObject.transform.rotation = Quaternion.LookRotation(newDir);
 
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("TransferLightP1", 0f, 0.25f);
+                if (current_target.tag == "Player" || current_target.tag == "Dead")
+                {
+                    InvokeRepeating("TransferLightP1", 0f, 0.25f);
+                }
+
+                if (current_target.tag == "Bank")
+                {
+                    InvokeRepeating("TransferBank", 0f, 0.25f);
+                }
+
                 decrease = true;
+
             }
         }
 
         // Player 1 light transfer input
-        if ((Input.GetAxisRaw("Fire1") != 1 && Input.GetAxisRaw("Fire2") != 1) || !givelight || light <= 0)
+        if ((Input.GetAxisRaw("Fire1") != 1 && Input.GetAxisRaw("Fire2") != 1) || !givelight || light <= 5)
         {
             particleObject.SetActive(false);
             CancelInvoke("TransferLightP1");
+            CancelInvoke("TransferBank");
+
             if (light < 0)
             {
                 light = 0;
@@ -162,13 +175,8 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Player 1 boost input
-        if (Input.GetButton("BoostL1") && Input.GetButton("BoostR1") && !boosting)
+        if (Input.GetButtonDown("BoostR1") && !boosting && light > 5f)
         {
-            if (m_Vertical == 0 && m_Horizontal == 0)
-            {
-                return;
-            }
-            
             m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
             transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
             force.x = Mathf.Cos(m_Angle);
@@ -176,7 +184,15 @@ public class PlayerController : MonoBehaviour {
             force.x = force.x * boostForce;
             force.y = force.y * boostForce;
             GetComponent<Rigidbody2D>().AddForce(force);
+            light -= 5f;
+            GetComponent<Light>().range -= 0.25f;
+            transform.localScale = new Vector2(transform.localScale.x - 0.25f, transform.localScale.y - 0.25f); //this amount might need to be tweaked 
+            speed += 0.25f;
+            trail.GetComponent<ParticleSystem>().startSize -= 0.25f;
         }
+
+
+
     }
 
     public void Player2Control()
@@ -189,23 +205,35 @@ public class PlayerController : MonoBehaviour {
         {
             particleObject.SetActive(true);
             particleObject.transform.position = this.transform.position;
-            Vector3 targetDir = player1.transform.position - particleObject.transform.position;
+            Vector3 targetDir = current_target.transform.position - particleObject.transform.position;
             float step = 6f;
             Vector3 newDir = Vector3.RotateTowards(particleObject.transform.forward, targetDir, step, 0.0F);
             particleObject.transform.rotation = Quaternion.LookRotation(newDir);
 
             if (light >= 0f && !decrease)
             {
-                InvokeRepeating("TransferLightP2", 0f, 0.25f);
+                if (current_target.tag == "Player" || current_target.tag == "Dead")
+                {
+                    InvokeRepeating("TransferLightP2", 0f, 0.25f);
+                }
+
+                if (current_target.tag == "Bank")
+                {
+                    InvokeRepeating("TransferBank", 0f, 0.25f);
+                }
+
                 decrease = true;
+
             }
         }
 
         // Player 2 light transfer input
-        if ((Input.GetAxisRaw("Fire1P2") != 1 && Input.GetAxisRaw("Fire2P2") != 1) || !givelight || light <= 0)
+        if ((Input.GetAxisRaw("Fire1P2") != 1 && Input.GetAxisRaw("Fire2P2") != 1) || !givelight || light <= 5)
         {
             particleObject.SetActive(false);
             CancelInvoke("TransferLightP2");
+            CancelInvoke("TransferBank");
+
 
             if (light < 0)
             {
@@ -217,16 +245,11 @@ public class PlayerController : MonoBehaviour {
                 transform.localScale = new Vector2(0.1f, 0.1f); //so the player doesn't get a negative scale
             }
             decrease = false;
+
         }
 
-        // Player 2 boost input
-        if (Input.GetButton("BoostL2") && Input.GetButton("BoostR2") && !boosting)
+        if (Input.GetButtonDown("BoostR2") && !boosting && light > 5f)
         {
-            if (m_Vertical == 0 && m_Horizontal == 0)
-            {
-                return;
-            }
-            
             m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
             transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
             force.x = Mathf.Cos(m_Angle);
@@ -234,6 +257,11 @@ public class PlayerController : MonoBehaviour {
             force.x = force.x * boostForce;
             force.y = force.y * boostForce;
             GetComponent<Rigidbody2D>().AddForce(force);
+            light -= 5f;
+            GetComponent<Light>().range -= 0.25f;
+            transform.localScale = new Vector2(transform.localScale.x - 0.25f, transform.localScale.y - 0.25f); //this amount might need to be tweaked 
+            speed += 0.25f;
+            trail.GetComponent<ParticleSystem>().startSize -= 0.25f;
         }
     }
 
@@ -272,6 +300,21 @@ public class PlayerController : MonoBehaviour {
         player1.GetComponent<PlayerController>().light += lightChangeRate;
         player1.transform.localScale = new Vector2(player1.transform.localScale.x + localScaleChangeRate, player1.transform.localScale.y + localScaleChangeRate);
     }
+
+    public void TransferBank()
+    {
+        light -= lightChangeRate;
+        this.GetComponent<Light>().range -= rangeChangeRate;
+        GetTrail(this.gameObject).GetComponent<ParticleSystem>().startSize -= trailChangeRate;
+        transform.localScale = new Vector2(transform.localScale.x - localScaleChangeRate, transform.localScale.y - localScaleChangeRate);
+        speed += speedChangeRate;
+
+        // Change values for other player
+        bank.GetComponent<Light>().range += rangeChangeRate;
+        bank.GetComponent<Bank>().light += lightChangeRate;
+        bank.transform.localScale = new Vector2(bank.transform.localScale.x + localScaleChangeRate, bank.transform.localScale.y + localScaleChangeRate);
+    }
+
 
     public void DecreaseLight()
     {
