@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject player2;
     public float lightrate;
     private bool decrease;
+    private bool boosting;
     private float enemyAttackDecreaseLightAmount = 5f;
     private float rangeChangeRate = 0.025f;
     private float speedChangeRate = 0.025f;
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject trail;
     private Color current_color;
     private Color original_color;
+    public float boostForce = 100f;
 
     private void Awake()
     {
@@ -124,6 +126,7 @@ public class PlayerController : MonoBehaviour {
         m_Vertical = Input.GetAxis("Vertical");
         m_Horizontal = Input.GetAxis("Horizontal");
 
+        // Player 1 light transfer input
         if(Input.GetAxisRaw("Fire1") == 1 && Input.GetAxisRaw("Fire2") == 1 && givelight)
         {
             particleObject.SetActive(true);
@@ -140,7 +143,8 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if((Input.GetAxisRaw("Fire1") != 1 && Input.GetAxisRaw("Fire2") != 1) || !givelight || light <= 0)
+        // Player 1 light transfer input
+        if ((Input.GetAxisRaw("Fire1") != 1 && Input.GetAxisRaw("Fire2") != 1) || !givelight || light <= 0)
         {
             particleObject.SetActive(false);
             CancelInvoke("TransferLightP1");
@@ -156,6 +160,32 @@ public class PlayerController : MonoBehaviour {
             decrease = false;
         }
 
+        // Player 1 boost input
+        if (playerNumber == 1 && Input.GetButton("BoostL1") && Input.GetButton("BoostR1") && !boosting)
+        {
+            Debug.Log("P1 BOOST!!");
+            m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
+            transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
+            force.x = Mathf.Cos(m_Angle);
+            force.y = Mathf.Sin(m_Angle);
+            force.x = force.x * boostForce;
+            force.y = force.y * boostForce;
+            GetComponent<Rigidbody2D>().AddForce(force);
+        }
+
+        // Player 2 boost input
+        if (playerNumber == 2 && Input.GetButton("BoostL2") && Input.GetButton("BoostR2") && !boosting)
+        {
+            Debug.Log("P2 BOOST!!");
+            m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
+            transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
+            force.x = Mathf.Cos(m_Angle);
+            force.y = Mathf.Sin(m_Angle);
+            force.x = force.x * boostForce;
+            force.y = force.y * boostForce;
+            GetComponent<Rigidbody2D>().AddForce(force);
+        }
+
     }
 
     public void Player2Control()
@@ -163,6 +193,7 @@ public class PlayerController : MonoBehaviour {
         m_Vertical = Input.GetAxis("VerticalP2");
         m_Horizontal = Input.GetAxis("HorizontalP2");
 
+        // Player 2 light transfer input
         if (Input.GetAxisRaw("Fire1P2") == 1 && Input.GetAxisRaw("Fire2P2") == 1 && givelight)
         {
             particleObject.SetActive(true);
@@ -179,6 +210,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        // Player 2 light transfer input
         if ((Input.GetAxisRaw("Fire1P2") != 1 && Input.GetAxisRaw("Fire2P2") != 1) || !givelight || light <= 0)
         {
             particleObject.SetActive(false);
