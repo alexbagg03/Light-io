@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
     public GameObject winStateUI;
     public GameObject startStateUI;
     public GameObject loseStateUI;
+    public GameObject bank;
 
     ///////////////////////////////////////////////
     /// MONOBEHAVIOR METHODS
@@ -46,10 +47,12 @@ public class GameManager : MonoBehaviour {
     }
     void Update ()
     {
-        if (totalLightGained <= 0)
+        if (player1.GetComponent<PlayerController>().light <= 0 && player2.GetComponent<PlayerController>().light <= 0)
         {
             LoseState();
         }
+
+        totalLightGained = bank.GetComponent<Bank>().light;
 	}
 
     ///////////////////////////////////////////////
@@ -106,7 +109,7 @@ public class GameManager : MonoBehaviour {
     }
     public void AddLight(float light)
     {
-        totalLightGained += light;
+        //totalLightGained += light;
         //scorebarFill.GetComponent<ScorebarController>().LerpColor();
     }
 
