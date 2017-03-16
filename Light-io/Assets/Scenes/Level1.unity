@@ -23219,6 +23219,11 @@ Prefab:
       propertyPath: bank
       value: 
       objectReference: {fileID: 120772686}
+    - target: {fileID: 114487793961543710, guid: df6adbd6d512890449fb7ab1277cde40,
+        type: 2}
+      propertyPath: maxLight
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: df6adbd6d512890449fb7ab1277cde40, type: 2}
   m_IsPrefabParent: 0
@@ -26892,6 +26897,11 @@ Prefab:
       propertyPath: player1
       value: 
       objectReference: {fileID: 1585287392}
+    - target: {fileID: 114441094499826968, guid: 3dd6670c24e627041ac70cef95370b61,
+        type: 2}
+      propertyPath: bank
+      value: 
+      objectReference: {fileID: 120772686}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3dd6670c24e627041ac70cef95370b61, type: 2}
   m_IsPrefabParent: 0
