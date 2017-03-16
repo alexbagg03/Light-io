@@ -23219,6 +23219,11 @@ Prefab:
       propertyPath: bank
       value: 
       objectReference: {fileID: 120772686}
+    - target: {fileID: 114487793961543710, guid: df6adbd6d512890449fb7ab1277cde40,
+        type: 2}
+      propertyPath: maxLight
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: df6adbd6d512890449fb7ab1277cde40, type: 2}
   m_IsPrefabParent: 0
