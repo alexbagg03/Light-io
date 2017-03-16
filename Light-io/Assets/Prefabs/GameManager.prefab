@@ -40,6 +40,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOver: 0
   gamePaused: 0
+  maxLight: 125
+  totalLightGained: 0
+  player1: {fileID: 0}
+  player2: {fileID: 0}
+  scorebarFill: {fileID: 0}
+  winStateUI: {fileID: 0}
+  startStateUI: {fileID: 0}
+  loseStateUI: {fileID: 0}
+  bank: {fileID: 0}
 --- !u!224 &224081674661708472
 RectTransform:
   m_ObjectHideFlags: 1
