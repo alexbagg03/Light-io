@@ -7,6 +7,12 @@ public class Pickup : MonoBehaviour {
 
     public float lightGain = 5;
 
+    private GameObject pickupGenerator;
+
+    void Start()
+    {
+        pickupGenerator = GameObject.Find("PickupGenerator");
+    }
 	void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
@@ -23,10 +29,12 @@ public class Pickup : MonoBehaviour {
             {
                 GetTrail(other.gameObject).GetComponent<ParticleSystem>().startSize += 0.25f;
             }
+
+            pickupGenerator.GetComponent<PickupGenerator>().SpawnPickup();
+
             Destroy(gameObject);
         }
     }
-
 
     public GameObject GetTrail(GameObject parent)
     {
