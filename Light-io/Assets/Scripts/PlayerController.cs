@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour {
 		light = 5f;
         speed = 4f;
         givelight = false;
+        boosting = false;
         particleObject.SetActive(false);
         lightrate = 0.01f;
         decrease = false;
@@ -161,9 +162,13 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Player 1 boost input
-        if (playerNumber == 1 && Input.GetButton("BoostL1") && Input.GetButton("BoostR1") && !boosting)
+        if (Input.GetButton("BoostL1") && Input.GetButton("BoostR1") && !boosting)
         {
-            Debug.Log("P1 BOOST!!");
+            if (m_Vertical == 0 && m_Horizontal == 0)
+            {
+                return;
+            }
+            
             m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
             transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
             force.x = Mathf.Cos(m_Angle);
@@ -172,20 +177,6 @@ public class PlayerController : MonoBehaviour {
             force.y = force.y * boostForce;
             GetComponent<Rigidbody2D>().AddForce(force);
         }
-
-        // Player 2 boost input
-        if (playerNumber == 2 && Input.GetButton("BoostL2") && Input.GetButton("BoostR2") && !boosting)
-        {
-            Debug.Log("P2 BOOST!!");
-            m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
-            transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
-            force.x = Mathf.Cos(m_Angle);
-            force.y = Mathf.Sin(m_Angle);
-            force.x = force.x * boostForce;
-            force.y = force.y * boostForce;
-            GetComponent<Rigidbody2D>().AddForce(force);
-        }
-
     }
 
     public void Player2Control()
@@ -226,6 +217,23 @@ public class PlayerController : MonoBehaviour {
                 transform.localScale = new Vector2(0.1f, 0.1f); //so the player doesn't get a negative scale
             }
             decrease = false;
+        }
+
+        // Player 2 boost input
+        if (Input.GetButton("BoostL2") && Input.GetButton("BoostR2") && !boosting)
+        {
+            if (m_Vertical == 0 && m_Horizontal == 0)
+            {
+                return;
+            }
+            
+            m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
+            transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
+            force.x = Mathf.Cos(m_Angle);
+            force.y = Mathf.Sin(m_Angle);
+            force.x = force.x * boostForce;
+            force.y = force.y * boostForce;
+            GetComponent<Rigidbody2D>().AddForce(force);
         }
     }
 
