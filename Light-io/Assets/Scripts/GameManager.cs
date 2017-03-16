@@ -99,6 +99,10 @@ public class GameManager : MonoBehaviour {
         {
             SceneManager.LoadScene("Level3");
         }
+        else if(SceneManager.GetActiveScene().name == "Level3")
+        {
+            SceneManager.LoadScene("WinScene");
+        }
     }
     public void AddLight(float light)
     {
