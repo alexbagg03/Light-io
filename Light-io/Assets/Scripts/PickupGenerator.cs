@@ -14,6 +14,7 @@ public class PickupGenerator : MonoBehaviour {
         {
             SpawnPickup();
         }
+
 	}
 
     public void SpawnPickup()
@@ -21,5 +22,7 @@ public class PickupGenerator : MonoBehaviour {
         Vector2 randPosition = new Vector2(Random.Range(-mapWidth / 2, mapWidth / 2), Random.Range(-mapWidth / 2, mapWidth / 2));
         GameObject.Instantiate(pickup, randPosition, Quaternion.identity);
     }
+
+
 
 }
