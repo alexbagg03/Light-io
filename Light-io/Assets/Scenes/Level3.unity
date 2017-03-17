@@ -23509,7 +23509,7 @@ Prefab:
     - target: {fileID: 114487793961543710, guid: df6adbd6d512890449fb7ab1277cde40,
         type: 2}
       propertyPath: maxLight
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 114487793961543710, guid: df6adbd6d512890449fb7ab1277cde40,
         type: 2}

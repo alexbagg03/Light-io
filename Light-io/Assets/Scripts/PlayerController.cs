@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    private Rigidbody2D m_Rigidbody;
 	public float light;
     public int playerNumber;
-    private float m_Horizontal;
-    private float m_Vertical;
-    private float m_Angle;
-    private Vector2 force;
     public float speed;
+    public float maxBoostSpeed = 5;
+    public float boostTime = 1.5f;
     public bool givelight;
     public GameObject particleObject;
     public GameObject player1;
     public GameObject player2;
     public float lightrate;
+    public GameObject trail;
+    public GameObject bank;
+    public GameObject current_target;
+
+    private Rigidbody2D m_Rigidbody;
+    private float m_Horizontal;
+    private float m_Vertical;
+    private float m_Angle;
+    private Vector2 force;
     private bool decrease;
     private bool boosting;
     private float enemyAttackDecreaseLightAmount = 5f;
@@ -25,12 +31,10 @@ public class PlayerController : MonoBehaviour {
     private float lightChangeRate = 0.5f;
     private float localScaleChangeRate = 0.025f;
     private float trailChangeRate = 0.025f;
-    public GameObject trail;
     private Color current_color;
     private Color original_color;
-    public float boostSpeed = 100f;
-    public GameObject bank;
-    public GameObject current_target;
+    private float currentBoostTime;
+    private float boostAcceleration;
 
     private void Awake()
     {
@@ -44,19 +48,19 @@ public class PlayerController : MonoBehaviour {
             GameObject.Find("Player2Camera").GetComponent<CameraFollow>().player = this.gameObject;
         }
     }
-
 	private void Start()
 	{
 		light = 5f;
         speed = 4f;
         givelight = false;
+        currentBoostTime = boostTime;
+        boostAcceleration = speed;
         particleObject.SetActive(false);
         lightrate = 0.01f;
         decrease = false;
         trail = transform.FindChild("Trail").gameObject;
         original_color = GetComponent<Light>().color;
 	}
-
     private void Update()
     {
         if (GameManager.Instance.gamePaused)
@@ -83,16 +87,11 @@ public class PlayerController : MonoBehaviour {
 
         if (gameObject.tag == "Dead")
         {
-            m_Rigidbody.velocity = new Vector2(0, 0);
-
             GetComponent<Light>().color = new Color(19f / 255f, 19f / 255f, 19f / 255f, 122f / 255f);
             if (trail.activeSelf)
             {
                 trail.SetActive(false);
             }
-            
-
-            return;
         }
 
         switch (playerNumber)
@@ -109,8 +108,7 @@ public class PlayerController : MonoBehaviour {
         {
             m_Rigidbody.velocity = new Vector2(0, 0);
         }
-
-        else
+        else if (!boosting)
         {
             m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
             transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
@@ -121,6 +119,17 @@ public class PlayerController : MonoBehaviour {
             m_Rigidbody.velocity = new Vector2(force.x, force.y) * speed;
         }
 
+        if (currentBoostTime < boostTime)
+        {
+            Debug.Log("BOOSTING");
+            ApplyBoostForce();
+            currentBoostTime += Time.deltaTime;
+        }
+        else
+        {
+            boostAcceleration = speed;
+            boosting = false;
+        }
     }
 
     public void Player1Control()
@@ -177,12 +186,10 @@ public class PlayerController : MonoBehaviour {
         // Player 1 boost input
         if (Input.GetButtonDown("BoostR1") && !boosting && light > 5f)
         {
-            Debug.Log("BoostR1");
             StartBoost();
         }
 
     }
-
     public void Player2Control()
     {
         m_Vertical = Input.GetAxis("VerticalP2");
@@ -241,7 +248,6 @@ public class PlayerController : MonoBehaviour {
             StartBoost();
         }
     }
-
     public void TransferLightP1()
     {
         // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
@@ -259,7 +265,6 @@ public class PlayerController : MonoBehaviour {
         player2.GetComponent<PlayerController>().light += lightChangeRate;
         player2.transform.localScale = new Vector2(player2.transform.localScale.x + localScaleChangeRate, player2.transform.localScale.y + localScaleChangeRate);
     }
-
     public void TransferLightP2()
     {
         // these values are dependent to how much light and size is increased when a player picks up an orb. Right now size and light is 1 to 1
@@ -277,7 +282,6 @@ public class PlayerController : MonoBehaviour {
         player1.GetComponent<PlayerController>().light += lightChangeRate;
         player1.transform.localScale = new Vector2(player1.transform.localScale.x + localScaleChangeRate, player1.transform.localScale.y + localScaleChangeRate);
     }
-
     public void TransferBank()
     {
         light -= lightChangeRate;
@@ -290,8 +294,6 @@ public class PlayerController : MonoBehaviour {
         bank.GetComponent<Bank>().light += lightChangeRate;
         bank.transform.localScale = new Vector2(bank.transform.localScale.x + localScaleChangeRate, bank.transform.localScale.y + localScaleChangeRate);
     }
-
-
     public void DecreaseLight()
     {
         if (light <= 0)
@@ -309,7 +311,6 @@ public class PlayerController : MonoBehaviour {
 
     private void StartBoost()
     {
-        Debug.Log("StartBoost()");
         // Change player light values
         light -= 5f;
         GetComponent<Light>().range -= 0.25f;
@@ -317,30 +318,25 @@ public class PlayerController : MonoBehaviour {
         speed += 0.25f;
         trail.GetComponent<ParticleSystem>().startSize -= 0.25f;
 
-        Invoke("BoostControl", 0);
+        // Initiate boosting time
+        currentBoostTime = 0;
         boosting = true;
     }
-
-    private void BoostControl()
+    private void ApplyBoostForce()
     {
-        Debug.Log("BoostControl()");
-        float currentTime = 0;
-        float endTime = 1.5f;
+        // Add the boost force
+        m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
+        transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
+        force.x = Mathf.Cos(m_Angle);
+        force.y = Mathf.Sin(m_Angle);
+        force.x = force.x * boostAcceleration;
+        force.y = force.y * boostAcceleration;
+        m_Rigidbody.velocity = new Vector2(force.x, force.y) * boostAcceleration;
 
-        while (currentTime < endTime)
+        if (boostAcceleration < maxBoostSpeed)
         {
-            Debug.Log("Boosting at time = " + Time.deltaTime);
-            m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
-            transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
-            force.x = Mathf.Cos(m_Angle);
-            force.y = Mathf.Sin(m_Angle);
-            force.x = force.x * boostSpeed;
-            force.y = force.y * boostSpeed;
-            GetComponent<Rigidbody2D>().velocity = new Vector2(force.x, force.y) * boostSpeed;
-            currentTime += Time.deltaTime;
+            boostAcceleration += 0.1f;
         }
-
-        boosting = false;
     }
 
     public GameObject GetTrail(GameObject parent)
