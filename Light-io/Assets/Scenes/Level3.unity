@@ -19620,7 +19620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackHole: {fileID: 1720346386898728, guid: 44faee4798f8a044e8b323612e99cc7d, type: 2}
-  blackHolesOnStart: 150
+  blackHolesOnStart: 125
   mapWidth: 100
 --- !u!1001 &1429669231
 Prefab:
@@ -23509,7 +23509,7 @@ Prefab:
     - target: {fileID: 114487793961543710, guid: df6adbd6d512890449fb7ab1277cde40,
         type: 2}
       propertyPath: maxLight
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 114487793961543710, guid: df6adbd6d512890449fb7ab1277cde40,
         type: 2}
