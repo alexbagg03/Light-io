@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 199268447572112572}
   - component: {fileID: 198305494117462734}
   - component: {fileID: 58645939026121808}
+  - component: {fileID: 114619345669135692}
   m_Layer: 0
   m_Name: SpaceHole
   m_TagString: Untagged
@@ -52,7 +53,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -91,6 +92,17 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114619345669135692
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720346386898728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c1daaa7c0c64bac9c4c71a7d1b1a68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198305494117462734
 ParticleSystem:
   m_ObjectHideFlags: 1
