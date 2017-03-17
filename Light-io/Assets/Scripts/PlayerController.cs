@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject trail;
     private Color current_color;
     private Color original_color;
-    public float boostForce = 100f;
+    public float boostSpeed = 100f;
     public GameObject bank;
     public GameObject current_target;
 
@@ -177,21 +177,9 @@ public class PlayerController : MonoBehaviour {
         // Player 1 boost input
         if (Input.GetButtonDown("BoostR1") && !boosting && light > 5f)
         {
-            m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
-            transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
-            force.x = Mathf.Cos(m_Angle);
-            force.y = Mathf.Sin(m_Angle);
-            force.x = force.x * boostForce;
-            force.y = force.y * boostForce;
-            GetComponent<Rigidbody2D>().AddForce(force);
-            light -= 5f;
-            GetComponent<Light>().range -= 0.25f;
-            transform.localScale = new Vector2(transform.localScale.x - 0.25f, transform.localScale.y - 0.25f); //this amount might need to be tweaked 
-            speed += 0.25f;
-            trail.GetComponent<ParticleSystem>().startSize -= 0.25f;
+            Debug.Log("BoostR1");
+            StartBoost();
         }
-
-
 
     }
 
@@ -250,18 +238,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("BoostR2") && !boosting && light > 5f)
         {
-            m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
-            transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
-            force.x = Mathf.Cos(m_Angle);
-            force.y = Mathf.Sin(m_Angle);
-            force.x = force.x * boostForce;
-            force.y = force.y * boostForce;
-            GetComponent<Rigidbody2D>().AddForce(force);
-            light -= 5f;
-            GetComponent<Light>().range -= 0.25f;
-            transform.localScale = new Vector2(transform.localScale.x - 0.25f, transform.localScale.y - 0.25f); //this amount might need to be tweaked 
-            speed += 0.25f;
-            trail.GetComponent<ParticleSystem>().startSize -= 0.25f;
+            StartBoost();
         }
     }
 
@@ -329,6 +306,42 @@ public class PlayerController : MonoBehaviour {
         GetTrail(this.gameObject).GetComponent<ParticleSystem>().startSize -= 0.25f;
         transform.localScale = new Vector2(transform.localScale.x - 0.25f, transform.localScale.y - 0.25f);
         speed += 0.25f;
+    }
+
+    private void StartBoost()
+    {
+        Debug.Log("StartBoost()");
+        // Change player light values
+        light -= 5f;
+        GetComponent<Light>().range -= 0.25f;
+        transform.localScale = new Vector2(transform.localScale.x - 0.25f, transform.localScale.y - 0.25f); //this amount might need to be tweaked 
+        speed += 0.25f;
+        trail.GetComponent<ParticleSystem>().startSize -= 0.25f;
+
+        Invoke("BoostControl", 0);
+        boosting = true;
+    }
+
+    private void BoostControl()
+    {
+        Debug.Log("BoostControl()");
+        float currentTime = 0;
+        float endTime = 1.5f;
+
+        while (currentTime < endTime)
+        {
+            Debug.Log("Boosting at time = " + Time.deltaTime);
+            m_Angle = Mathf.Atan2(m_Vertical, m_Horizontal);
+            transform.eulerAngles = new Vector3(0, 0, m_Angle * Mathf.Rad2Deg);
+            force.x = Mathf.Cos(m_Angle);
+            force.y = Mathf.Sin(m_Angle);
+            force.x = force.x * boostSpeed;
+            force.y = force.y * boostSpeed;
+            GetComponent<Rigidbody2D>().velocity = new Vector2(force.x, force.y) * boostSpeed;
+            currentTime += Time.deltaTime;
+        }
+
+        boosting = false;
     }
 
     public GameObject GetTrail(GameObject parent)
